@@ -1,0 +1,230 @@
+/*
+Created		4/10/2021
+Modified		4/10/2021
+Project		
+Model			
+Company		
+Author		
+Version		
+Database		MS SQL 2005 
+*/
+
+CREATE DATABASE PTDT_H_ShopTranh
+go 
+USE PTDT_H_ShopTranh
+GO
+
+Create table [CUAHANG]
+(
+	[MaCH] Integer Identity NOT NULL,
+	[TenCH] Nvarchar(60) NOT NULL,
+	[AnhMinhHoa] Nvarchar(255) NOT NULL,
+Primary Key ([MaCH])
+) 
+go
+
+Create table [THELOAITRANH]
+(
+	[MaTL] Integer Identity NOT NULL,
+	[TenTL] Nvarchar(60) NOT NULL,
+	[Anh] Nvarchar(255) NOT NULL,
+	[MaCH] Integer NOT NULL,
+Primary Key ([MaTL])
+) 
+go
+
+Create table [TRANH]
+(
+	[MaSo] Integer Identity NOT NULL,
+	[TieuDe] Nvarchar(100) NOT NULL,
+	[AnhChup] Nvarchar(255) NOT NULL,
+	[KichThuoc] Nchar(15) NOT NULL,
+	[ChatLieu] Nvarchar(80) NOT NULL,
+	[GiaBan] Money NOT NULL,
+	[Mota] Ntext NOT NULL,
+	[NgayHoanThanh] Datetime NOT NULL,
+	[TinhTrang] Integer NOT NULL,
+	[MaTL] Integer NOT NULL,
+	[MaCD] Integer NOT NULL,
+	[MaTruongPhai] Integer NOT NULL,
+	[MaHS] Integer NOT NULL,
+	[MaBoSuuTap] Integer NULL,
+Primary Key ([MaSo])
+) 
+go
+
+Create table [CHUDE]
+(
+	[MaCD] Integer Identity NOT NULL,
+	[TenCD] Nvarchar(60) NOT NULL,
+	[Anh] Nvarchar(255) NOT NULL,
+Primary Key ([MaCD])
+) 
+go
+
+Create table [TRUONGPHAI]
+(
+	[MaTruongPhai] Integer Identity NOT NULL,
+	[TenTruongPhai] Nchar(60) NOT NULL,
+Primary Key ([MaTruongPhai])
+) 
+go
+
+Create table [HOASI]
+(
+	[MaHS] Integer Identity NOT NULL,
+	[HoTen] Nvarchar(30) NOT NULL,
+	[DiaChi] Nvarchar(100) NOT NULL,
+	[ThongTinCN] Ntext NOT NULL,
+	[GiaiThuong] Ntext NULL,
+	[DaoTao] Ntext NULL,
+Primary Key ([MaHS])
+) 
+go
+
+Create table [TRIENLAM]
+(
+	[MaTrienLam] Integer Identity NOT NULL,
+	[TenTruongPhai] Nvarchar(60) NOT NULL,
+	[Ngay] Datetime NOT NULL,
+	[DiaDiem] Nvarchar(100) NOT NULL,
+	[GioiThieu] Ntext NOT NULL,
+	[MoTa] Ntext NULL,
+Primary Key ([MaTrienLam])
+) 
+go
+
+Create table [TRIENLAM_HOASI]
+(
+	[MaHS] Integer NOT NULL,
+	[MaTrienLam] Integer NOT NULL,
+Primary Key ([MaHS],[MaTrienLam])
+) 
+go
+
+Create table [TRIENLAM_TRANH]
+(
+	[MaSo] Integer NOT NULL,
+	[MaTrienLam] Integer NOT NULL,
+Primary Key ([MaSo],[MaTrienLam])
+) 
+go
+
+Create table [BAIVIET]
+(
+	[MaBaiViet] Integer Identity NOT NULL,
+	[AnhMinhHoa] Nvarchar(50) NOT NULL,
+	[TieuDe] Nvarchar(50) NOT NULL,
+	[NoiDungTomTat] Nvarchar(255) NOT NULL,
+	[NoiDung] Ntext NOT NULL,
+	[MaTV] Integer NOT NULL,
+Primary Key ([MaBaiViet])
+) 
+go
+
+Create table [BOSUUTAP]
+(
+	[MaBoSuuTap] Integer Identity NOT NULL,
+	[TenBST] Nvarchar(60) NOT NULL,
+	[AnhDaiDien] Nvarchar(255) NOT NULL,
+	[MoTaVanTat] Nvarchar(255) NOT NULL,
+	[MoTaChiTiet] Ntext NOT NULL,
+Primary Key ([MaBoSuuTap])
+) 
+go
+
+Create table [CAUCHUYENTACPHAM]
+(
+	[MaCauCHuyen] Integer Identity NOT NULL,
+	[NoiDungTomTat] Nvarchar(255) NOT NULL,
+	[NoiDungChiTiet] Ntext NOT NULL,
+	[MaSo] Integer NOT NULL,
+Primary Key ([MaCauCHuyen])
+) 
+go
+
+Create table [THANHVIEN]
+(
+	[MaTV] Integer Identity NOT NULL,
+	[Email] Nvarchar(50) NOT NULL,
+	[MatKhau] Varchar(20) NOT NULL,
+	[HoTen] Nvarchar(30) NOT NULL,
+	[LoaiNguoiDung] Nvarchar(50) NOT NULL,
+	[NgaySinh] Integer NOT NULL,
+	[ThangSinh] Integer NOT NULL,
+	[NamSinh] Integer NOT NULL,
+	[QuocTich] Nvarchar(50) NOT NULL,
+	[TinhTP] Nvarchar(50) NOT NULL,
+	[AnhBia] Nvarchar(255) NULL,
+Primary Key ([MaTV])
+) 
+go
+
+Create table [DONHANG]
+(
+	[SoHD] Integer Identity NOT NULL,
+	[NgayLap] Datetime NOT NULL,
+	[HoTenNN] Nvarchar(30) NOT NULL,
+	[Email] Nvarchar(50) NOT NULL,
+	[DienThoai] Varchar(15) NOT NULL,
+	[DiaChi] Nvarchar(100) NOT NULL,
+	[TinhTP] Nvarchar(50) NOT NULL,
+	[QuanHuyen] Nvarchar(50) NOT NULL,
+	[QuocGia] Nvarchar(50) NOT NULL,
+	[PhiVanChuyen] Money NOT NULL,
+	[TongTien] Money NOT NULL,
+	[TInhTrang] Integer NOT NULL,
+	[MaSo] Integer NOT NULL,
+Primary Key ([SoHD])
+) 
+go
+
+Create table [TRANHYEUTHICH]
+(
+	[MaSo] Integer NOT NULL,
+	[MaTV] Integer NOT NULL,
+Primary Key ([MaSo],[MaTV])
+) 
+go
+
+
+Alter table [THELOAITRANH] add  foreign key([MaCH]) references [CUAHANG] ([MaCH])  on update no action on delete no action 
+go
+Alter table [TRANH] add  foreign key([MaTL]) references [THELOAITRANH] ([MaTL])  on update no action on delete no action 
+go
+Alter table [TRIENLAM_TRANH] add  foreign key([MaSo]) references [TRANH] ([MaSo])  on update no action on delete no action 
+go
+Alter table [CAUCHUYENTACPHAM] add  foreign key([MaSo]) references [TRANH] ([MaSo])  on update no action on delete no action 
+go
+Alter table [DONHANG] add  foreign key([MaSo]) references [TRANH] ([MaSo])  on update no action on delete no action 
+go
+Alter table [TRANHYEUTHICH] add  foreign key([MaSo]) references [TRANH] ([MaSo])  on update no action on delete no action 
+go
+Alter table [TRANH] add  foreign key([MaCD]) references [CHUDE] ([MaCD])  on update no action on delete no action 
+go
+Alter table [TRANH] add  foreign key([MaTruongPhai]) references [TRUONGPHAI] ([MaTruongPhai])  on update no action on delete no action 
+go
+Alter table [TRANH] add  foreign key([MaHS]) references [HOASI] ([MaHS])  on update no action on delete no action 
+go
+Alter table [TRIENLAM_HOASI] add  foreign key([MaHS]) references [HOASI] ([MaHS])  on update no action on delete no action 
+go
+Alter table [TRIENLAM_HOASI] add  foreign key([MaTrienLam]) references [TRIENLAM] ([MaTrienLam])  on update no action on delete no action 
+go
+Alter table [TRIENLAM_TRANH] add  foreign key([MaTrienLam]) references [TRIENLAM] ([MaTrienLam])  on update no action on delete no action 
+go
+Alter table [TRANH] add  foreign key([MaBoSuuTap]) references [BOSUUTAP] ([MaBoSuuTap])  on update no action on delete no action 
+go
+Alter table [BAIVIET] add  foreign key([MaTV]) references [THANHVIEN] ([MaTV])  on update no action on delete no action 
+go
+Alter table [TRANHYEUTHICH] add  foreign key([MaTV]) references [THANHVIEN] ([MaTV])  on update no action on delete no action 
+go
+
+
+Set quoted_identifier on
+go
+
+
+Set quoted_identifier off
+go
+
+
